@@ -13,6 +13,9 @@ services:
       - RABBITMQ_DEFAULT_PASS=eksiclone_password
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq
+      - ./rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf:ro
+      - ./enabled_plugins:/etc/rabbitmq/enabled_plugins:ro
+    restart: always
     networks:
       - eksiclone-network
     healthcheck:
@@ -20,8 +23,11 @@ services:
       interval: 30s
       timeout: 10s
       retries: 5
+
 networks:
   eksiclone-network:
     driver: bridge
+
 volumes:
   rabbitmq_data:
+    driver: local
